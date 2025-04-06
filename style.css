@@ -210,7 +210,6 @@ body {
 .hero {
     min-height: 100vh;
     position: relative;
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
     overflow: hidden;
     padding: 2rem;
     display: flex;
@@ -225,6 +224,78 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: 1;
+}
+
+.bg-carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.3) saturate(1.2);
+}
+
+.carousel-slide:nth-child(1) {
+    animation: carouselFade1 15s infinite;
+}
+
+.carousel-slide:nth-child(2) {
+    animation: carouselFade2 15s infinite;
+}
+
+.carousel-slide:nth-child(3) {
+    animation: carouselFade3 15s infinite;
+}
+
+@keyframes carouselFade1 {
+    0%, 26% { opacity: 1; }
+    33%, 93% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes carouselFade2 {
+    0%, 26% { opacity: 0; }
+    33%, 59% { opacity: 1; }
+    66%, 100% { opacity: 0; }
+}
+
+@keyframes carouselFade3 {
+    0%, 59% { opacity: 0; }
+    66%, 93% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Overlay gradient */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(10, 10, 10, 0.8) 0%, 
+        rgba(26, 26, 46, 0.8) 100%
+    );
+    z-index: 2;
 }
 
 .grid-overlay {
@@ -237,11 +308,13 @@ body {
     background-size: 50px 50px;
     transform: perspective(500px) rotateX(60deg);
     animation: gridMove 20s linear infinite;
+    z-index: 3;
+    opacity: 0.3;
 }
 
 .hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 4;
     text-align: center;
     max-width: 1200px;
 }
@@ -249,17 +322,22 @@ body {
 /* Main Headline */
 .main-headline {
     font-family: 'Orbitron', sans-serif;
-    font-size: 4rem;
+    font-size: 6rem;
     font-weight: 900;
     color: transparent;
     margin-bottom: 2rem;
-    background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.9AJe4lrqa9dGUBYuTHufLAHaEK%26pid%3DApi&f=1&ipt=941ec4e932ba3da5cdf7b4519a9854746ad4cc288239e64ab3ab1ee459fdc568&ipo=images');
+    background-image: url('https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.CHWe9H-4mLtEVF0Qqs1isAHaEK%26pid%3DApi&f=1&ipt=78f2e42360b338c8a8988dfbe2c5179dedbb5c4bed2c05ae1c592b4a2d3221d8&ipo=images');
     background-size: cover;
     background-position: center;
     -webkit-background-clip: text;
     background-clip: text;
     text-shadow: 2px 2px 4px rgba(0, 243, 255, 0.3);
-    animation: fadeInUp 1s forwards, backgroundShift 10s linear infinite alternate;
+    animation: fadeInUp 1s forwards, textureShift 15s linear infinite alternate;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    mix-blend-mode: difference;
+    position: relative;
 }
 
 .bracket {
@@ -347,10 +425,26 @@ body {
     to { transform: perspective(500px) rotateX(60deg) translateY(50px); }
 }
 
+/* Add new animation for organic texture movement */
+@keyframes textureShift {
+    0% {
+        background-position: 0% 50%;
+        transform: scale(1);
+    }
+    50% {
+        background-position: 100% 50%;
+        transform: scale(1.02);
+    }
+    100% {
+        background-position: 0% 50%;
+        transform: scale(1);
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .main-headline {
-        font-size: 2rem;
+        font-size: 3.5rem;
     }
     
     .glitch {
@@ -359,6 +453,12 @@ body {
     
     .dynamic-subheading {
         font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-headline {
+        font-size: 2.5rem;
     }
 }
 
@@ -2149,6 +2249,87 @@ body {
 /* Update Club Identity animation */
 .club-identity .glitch {
     animation: backgroundShift 10s linear infinite alternate;
+}
+
+/* Background Carousel Styles */
+.bg-carousel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    animation: carouselFade 15s infinite;
+}
+
+.carousel-slide:nth-child(1) { animation-delay: 0s; }
+.carousel-slide:nth-child(2) { animation-delay: 5s; }
+.carousel-slide:nth-child(3) { animation-delay: 10s; }
+
+.carousel-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.3) contrast(1.2);
+    opacity: 0.6;
+}
+
+@keyframes carouselFade {
+    0%, 27% { opacity: 0; }
+    33%, 60% { opacity: 1; }
+    67%, 100% { opacity: 0; }
+}
+
+/* Update hero background to accommodate carousel */
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+        rgba(10, 10, 10, 0.8) 0%, 
+        rgba(26, 26, 46, 0.8) 100%
+    );
+}
+
+/* Update grid overlay z-index */
+.grid-overlay {
+    z-index: 1;
+    opacity: 0.3;
+}
+
+/* Update hero content z-index */
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Add a subtle vignette effect */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at center,
+        transparent 0%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
 } 
 
 
